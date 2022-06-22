@@ -6,17 +6,23 @@
         <mat-label>Enter Name</mat-label>
         <input matInput type="text" formControlName="name" />
       </mat-form-field>
-      <mat-form-field>
-        <mat-label>Enter phone number</mat-label>
-        <input matInput type="tel" formControlName="phoneNumbers" />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Enter additional phone number</mat-label>
-        <input matInput type="tel" formControlName="phoneNumbersAdd" />
-      </mat-form-field>
     </div>
+    <ng-container formArrayName="phoneNumbers">
+      <ng-container *ngFor="let numberForm of numbers.controls; let i = index">
+        <div [formGroupName]="i">
+          <mat-form-field>
+            <mat-label>Enter phone number</mat-label>
+            <input matInput type="tel" formControlName="number" />
+          </mat-form-field>
+        </div>
+      </ng-container>
+    </ng-container>
+
     <div class="user-info-buttons">
       <button class="btn btn-delete" (click)="return()">Cancel</button>
+      <button class="btn btn-add" type="button" (click)="addNumber()">
+        Add number
+      </button>
       <button class="btn btn-add" type="submit">Add</button>
     </div>
   </form>

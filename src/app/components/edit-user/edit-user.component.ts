@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { switchMap } from 'rxjs';
+import { switchMap, Subscription } from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
 import { User } from '../../interface';
 
@@ -10,11 +10,11 @@ import { User } from '../../interface';
   templateUrl: './edit-user.component.html',
   styleUrls: ['./edit-user.component.scss'],
 })
-export class EditUserComponent implements OnInit {
+export class EditUserComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   user!: User;
   submitted = false;
-
+  eSub!: Subscription;
   constructor(
     private route: ActivatedRoute,
     private userService: UserService,
@@ -39,6 +39,11 @@ export class EditUserComponent implements OnInit {
         });
       });
   }
+  ngOnDestroy(): void {
+    if (this.eSub) {
+      this.eSub.unsubscribe();
+    }
+  }
 
   submit() {
     if (this.form.invalid) {
@@ -52,7 +57,7 @@ export class EditUserComponent implements OnInit {
         this.form.value.phoneNumbersAdd,
       ],
     };
-    this.userService.updateUser(editUser).subscribe(() => {
+    this.eSub = this.userService.updateUser(editUser).subscribe(() => {
       alert('User Edited');
     });
   }

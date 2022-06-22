@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { User } from '../../interface';
@@ -8,10 +9,12 @@ import { User } from '../../interface';
   templateUrl: './user-page.component.html',
   styleUrls: ['./user-page.component.scss'],
 })
-export class UserPageComponent implements OnInit {
+export class UserPageComponent implements OnInit, OnDestroy {
   userData!: User;
   userId!: string;
   clicked = false;
+  idSub!: Subscription;
+
   constructor(
     private route: ActivatedRoute,
     private userService: UserService,
@@ -24,9 +27,13 @@ export class UserPageComponent implements OnInit {
     });
     this.getData();
   }
-
+  ngOnDestroy(): void {
+    if (this.idSub) {
+      this.idSub.unsubscribe();
+    }
+  }
   getData() {
-    return this.userService.getUserById(this.userId).subscribe((res) => {
+    this.idSub = this.userService.getUserById(this.userId).subscribe((res) => {
       this.userData = res;
     });
   }

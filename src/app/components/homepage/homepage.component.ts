@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -13,9 +14,12 @@ import { AddUserComponent } from '../add-user/add-user.component';
   templateUrl: './homepage.component.html',
   styleUrls: ['./homepage.component.scss'],
 })
-export class HomepageComponent implements OnInit {
+export class HomepageComponent implements OnInit, OnDestroy {
   users: User[] = [];
+  tSub!: Subscription;
+  delSub!: Subscription;
   amount = 15;
+  pageSize = 10;
   sorting: null | 'desc' | 'asc' = null;
   dataSource!: MatTableDataSource<any>;
   displayedColumns: string[] = [
@@ -37,8 +41,17 @@ export class HomepageComponent implements OnInit {
   ngOnInit() {
     this.getTableData();
   }
+  ngOnDestroy(): void {
+    if (this.tSub) {
+      this.tSub.unsubscribe;
+    }
+    if (this.delSub) {
+      this.delSub.unsubscribe();
+    }
+  }
+
   getTableData() {
-    return this.userService
+    this.tSub = this.userService
       .getUsers('', this.sorting, 1, this.amount)
       .subscribe((user: any) => {
         this.dataSource = new MatTableDataSource(user['users']);
@@ -58,7 +71,7 @@ export class HomepageComponent implements OnInit {
     return this.router.navigate(['/user', id]);
   }
   deleteUser(id: string) {
-    return this.userService.deleteUser(id).subscribe(() => {
+    this.delSub = this.userService.deleteUser(id).subscribe(() => {
       this.users = this.users.filter((user) => {
         user.id != id;
       });
