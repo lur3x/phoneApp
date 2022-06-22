@@ -38,6 +38,10 @@ export class AddUserComponent implements OnInit, OnDestroy {
     });
     this.numbers.push(numberForm);
   }
+
+  deleteNumber(numberIndex: number) {
+    this.numbers.removeAt(numberIndex);
+  }
   getPhoneNumbersArray(array: any): any {
     const numberArray = array;
     let newArr = [];

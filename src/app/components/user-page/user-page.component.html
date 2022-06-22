@@ -1,7 +1,8 @@
 <div class="container userInfo">
   <h2>{{ userData.name }}</h2>
-  <p>{{ userData.phoneNumbers[0] }}</p>
-  <p>{{ userData.phoneNumbers[1] ? userData.phoneNumbers[1] : "-" }}</p>
+  <div *ngFor="let numbers of userData.phoneNumbers">
+    <p>{{ numbers }}</p>
+  </div>
   <button class="btn btn-return" (click)="goBack()">Return</button>
   <button class="btn btn-edit" (click)="editUser(userData.id!)">Edit</button>
 </div>
