@@ -1,0 +1,23 @@
+<div class="container user-info">
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <h2 mat-dialog-title>Add User</h2>
+    <div class="mat-typography content">
+      <mat-form-field>
+        <mat-label>Enter Name</mat-label>
+        <input matInput type="text" formControlName="name" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Enter phone number</mat-label>
+        <input matInput type="tel" formControlName="phoneNumbers" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Enter additional phone number</mat-label>
+        <input matInput type="tel" formControlName="phoneNumbersAdd" />
+      </mat-form-field>
+    </div>
+    <div class="user-info-buttons">
+      <button class="btn btn-delete" (click)="return()">Cancel</button>
+      <button class="btn btn-add" type="submit">Add</button>
+    </div>
+  </form>
+</div>

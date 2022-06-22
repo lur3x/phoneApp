@@ -1,0 +1,23 @@
+.form {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  color: aliceblue;
+}
+.btn-submit {
+  background-color: #1a5276;
+  color: aliceblue;
+}
+.btn-submit:hover {
+  background-color: aliceblue;
+  color: #1a5276;
+}
+.btn-return {
+  margin-top: 10px;
+  background-color: #3a3838;
+  color: aliceblue;
+}
+.btn-return:hover {
+  background-color: #000;
+  color: aliceblue;
+}

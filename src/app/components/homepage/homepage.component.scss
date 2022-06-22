@@ -1,0 +1,45 @@
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 90%;
+  justify-content: center;
+  color: aliceblue;
+}
+
+td,
+th {
+  width: 20%;
+}
+:host ::ng-deep .mat-sort-header-content {
+  color: #fff;
+}
+
+:host ::ng-deep .mat-paginator-outer-container {
+  background-color: rgb(36, 37, 37);
+}
+
+:host ::ng-deep tr.mat-header-row {
+  background-color: #1a5276;
+}
+
+:host ::ng-deep tr.mat-row {
+  height: 50px;
+}
+.buttons-container {
+  width: 40%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+.btn-show {
+  background-color: #33b1ff;
+  color: #000;
+}
+.btn-show:hover {
+  background-color: #000;
+  color: #33b1ff;
+}
