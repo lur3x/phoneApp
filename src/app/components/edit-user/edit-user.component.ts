@@ -71,7 +71,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
     const editUser: User = {
       id: this.user.id,
       name: this.form.value.name,
-      phoneNumbers: [...this.user.phoneNumbers, numberArray],
+      phoneNumbers: [this.form.controls['numbers'].value, numberArray],
     };
     this.eSub = this.userService.updateUser(editUser).subscribe(() => {
       alert('User Edited');
