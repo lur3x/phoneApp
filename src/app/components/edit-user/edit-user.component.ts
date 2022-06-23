@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { switchMap, Subscription } from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
@@ -15,6 +15,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
   user!: User;
   submitted = false;
   eSub!: Subscription;
+  routeSub!: Subscription;
   constructor(
     private route: ActivatedRoute,
     private userService: UserService,
@@ -22,7 +23,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.route.params
+    this.routeSub = this.route.params
       .pipe(
         switchMap((params: Params) => {
           return this.userService.getUserById(params['id']);
@@ -32,16 +33,31 @@ export class EditUserComponent implements OnInit, OnDestroy {
         this.user = user;
         this.form = new FormGroup({
           name: new FormControl(user.name, Validators.required),
-          phoneNumbers: new FormControl(user.phoneNumbers[0]),
-          phoneNumbersAdd: new FormControl(
-            user.phoneNumbers[1] ? user.phoneNumbers[1] : '-'
-          ),
+          phoneNumbers: new FormArray([]),
+          numbers: new FormControl(user.phoneNumbers),
         });
       });
+  }
+  get numbers() {
+    return this.form.controls['phoneNumbers'] as FormArray;
+  }
+
+  addNumber() {
+    const numberForm = new FormGroup({
+      number: new FormControl('', Validators.required),
+    });
+    this.numbers.push(numberForm);
+  }
+
+  deleteNumber(numberIndex: number) {
+    this.numbers.removeAt(numberIndex);
   }
   ngOnDestroy(): void {
     if (this.eSub) {
       this.eSub.unsubscribe();
+    }
+    if (this.routeSub) {
+      this.routeSub.unsubscribe();
     }
   }
 
@@ -49,13 +65,13 @@ export class EditUserComponent implements OnInit, OnDestroy {
     if (this.form.invalid) {
       return;
     }
+    let numberArray = this.userService.getPhoneNumbersArray(
+      this.form.controls['phoneNumbers'].value
+    );
     const editUser: User = {
       id: this.user.id,
       name: this.form.value.name,
-      phoneNumbers: [
-        this.form.value.phoneNumbers,
-        this.form.value.phoneNumbersAdd,
-      ],
+      phoneNumbers: [...this.user.phoneNumbers, numberArray],
     };
     this.eSub = this.userService.updateUser(editUser).subscribe(() => {
       alert('User Edited');

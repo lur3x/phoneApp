@@ -42,25 +42,9 @@ export class AddUserComponent implements OnInit, OnDestroy {
   deleteNumber(numberIndex: number) {
     this.numbers.removeAt(numberIndex);
   }
-  getPhoneNumbersArray(array: any): any {
-    const numberArray = array;
-    let newArr = [];
-    for (let i = 0; i < numberArray.length; i++) {
-      let el = numberArray[i];
-      let arrEl = Object.values(el);
-      newArr.push(arrEl);
-    }
-    const concatArrays = (...arr: any) => {
-      const res = arr.reduce((acc: any, val: any) => {
-        return acc.concat(...val);
-      }, []);
-      return res;
-    };
-    let result = concatArrays(newArr);
-    return result;
-  }
+
   submit() {
-    let numberArray = this.getPhoneNumbersArray(
+    let numberArray = this.userService.getPhoneNumbersArray(
       this.form.controls['phoneNumbers'].value
     );
     const newUser: User = {
