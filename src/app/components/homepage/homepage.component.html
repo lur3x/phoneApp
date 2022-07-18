@@ -7,11 +7,11 @@
   <button class="btn btn-add" (click)="openAddUser()">Add User</button>
 
   <div class="buttons-container">
-    <button class="btn btn-show" (click)="showFive()">Show 5 Users</button>
-    <button class="btn btn-show" (click)="showTen()">Show 10 Users</button>
-    <button class="btn btn-show" (click)="showTwenty()">Show 20 User</button>
-    <button class="btn btn-show" (click)="sortDesc()">Sort desc</button>
-    <button class="btn btn-show" (click)="sortAsc()">Sort asc</button>
+    <button class="btn btn-show" (click)="showNumbers(5)">Show 5 Users</button>
+    <button class="btn btn-show" (click)="showNumbers(10)">Show 10 Users</button>
+    <button class="btn btn-show" (click)="showNumbers(20)">Show 20 User</button>
+    <button class="btn btn-show" (click)="sortType('desc')">Sort desc</button>
+    <button class="btn btn-show" (click)="sortType('asc')">Sort asc</button>
   </div>
   <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" matSort>

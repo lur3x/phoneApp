@@ -83,25 +83,13 @@ export class HomepageComponent implements OnInit, OnDestroy {
     return this.router.navigate(['/add']);
   }
 
-  showFive() {
-    this.amount = 5;
-    this.ngOnInit();
-  }
-  showTen() {
-    this.amount = 10;
-    this.ngOnInit();
-  }
-  showTwenty() {
-    this.amount = 20;
+  showNumbers(num: number) {
+    this.amount = num;
     this.ngOnInit();
   }
 
-  sortDesc() {
-    this.sorting = 'desc';
-    this.ngOnInit();
-  }
-  sortAsc() {
-    this.sorting = 'asc';
+  sortType(type: any) {
+    this.sorting = type ? type : null;
     this.ngOnInit();
   }
 }
